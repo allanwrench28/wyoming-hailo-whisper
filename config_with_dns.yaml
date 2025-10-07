@@ -1,0 +1,24 @@
+name: "Wyoming Hailo Whisper"
+description: "Hailo Whisper model for HA addon"
+version: "0.0.2"
+slug: "hailo_whisper_addon"
+init: false
+arch:
+  - aarch64
+startup: services
+ports:
+  10600/tcp: 10600
+devices: ["/dev/hailo0"]
+udev: true
+# DNS configuration to fix Docker build issues
+host_network: false
+dns:
+  - "8.8.8.8"
+  - "8.8.4.4"
+  - "1.1.1.1"
+options:
+  variant: base
+  device: hailo8l
+schema:
+  variant: list(tiny|base)
+  device: list(hailo8|hailo8l)

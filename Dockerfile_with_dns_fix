@@ -1,11 +1,4 @@
-
 FROM ubuntu:22.04
-
-# Fix DNS resolution issues in containerized environments (Home Assistant OS)
-# This resolves the "dial tcp: lookup auth.docker.io on 127.0.0.11:53: server misbehaving" error
-RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf && \
-    echo "nameserver 8.8.4.4" >> /etc/resolv.conf && \
-    echo "nameserver 1.1.1.1" >> /etc/resolv.conf
 
 # Default ENV
 ENV \
@@ -23,6 +16,11 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG S6_OVERLAY_VERSION=3.2.1.0
 ARG BASHIO_VERSION=0.17.1
 ARG TEMPIO_VERSION=2024.11.2
+
+# Configure DNS during build to fix Docker Hub access issues
+RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf && \
+    echo "nameserver 8.8.4.4" >> /etc/resolv.conf && \
+    echo "nameserver 1.1.1.1" >> /etc/resolv.conf
 
 # Base system
 WORKDIR /usr/src
